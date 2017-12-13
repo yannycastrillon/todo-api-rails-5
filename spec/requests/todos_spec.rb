@@ -47,4 +47,36 @@ RSpec.describe 'Todos API', type: :request do
       end
     end
   end
+
+  # Test suit for POST /todos
+  describe 'POST /todos' doµµµµ
+    # valid payload
+    let(:valid_attributes) { { title:'Learn Elm', created_by:1 } }
+
+    context 'When the request is valid' do
+      # Make the Post request
+      before { post '/todos', params: valid_attributes }
+
+      it 'creates a todo' do
+        # Validate json attribute 'title'
+        expect(json['title']).to eq('Learn Elm')
+      end
+
+      it 'returns status code 201' do
+        expect(response).to have_http_status(201)
+      end
+    end
+
+    context 'When the request is invalid' do
+      before { post '/todos', params: { title: 'Foobar'} }
+
+      it "returns status code 402" do
+        expect(response).to have_http_status(402)
+      end
+
+      it "returns a validation failure message" do
+        expect(response.body).to match(/Validation failed: Created by can't be blank/)
+      end
+    end
+  end
 end
