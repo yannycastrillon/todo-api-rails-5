@@ -51,7 +51,7 @@ RSpec.describe 'Todos API', type: :request do
   # Test suit for POST /todos
   describe 'POST /todos' do
     # valid payload
-    let(:valid_attributes) { { title:'Learn Elm', created_by:1 } }
+    let(:valid_attributes) { todo:{ title:'Learn Elm', created_by:1 } }
 
     context 'When the request is valid' do
       # Make the Post request
@@ -59,7 +59,7 @@ RSpec.describe 'Todos API', type: :request do
 
       it 'creates a todo' do
         # Validate json attribute 'title'
-        expect(json['title']).to eq('Learn Elm')
+        expect(json['todo']['title']).to eq('Learn Elm')
       end
 
       it 'returns status code 201' do
@@ -68,7 +68,7 @@ RSpec.describe 'Todos API', type: :request do
     end
 
     context 'When the request is invalid' do
-      before { post '/todos', params: { title: 'Foobar'} }
+      before { post '/todos', params: { todo: { title: 'Foobar' } } }
 
       it "returns status code 402" do
         expect(response).to have_http_status(402)
