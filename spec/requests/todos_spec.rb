@@ -49,7 +49,7 @@ RSpec.describe 'Todos API', type: :request do
   end
 
   # Test suit for POST /todos
-  describe 'POST /todos' doµµµµ
+  describe 'POST /todos' do
     # valid payload
     let(:valid_attributes) { { title:'Learn Elm', created_by:1 } }
 
@@ -80,6 +80,7 @@ RSpec.describe 'Todos API', type: :request do
     end
   end
 
+  # Test suite for PUT /todos/:id
   describe 'PUT /todos/:id' do
     let(:valid_attributes) { { title:'Shopping' } }
 
@@ -93,6 +94,13 @@ RSpec.describe 'Todos API', type: :request do
       it "returns a status code 204" do
         expect(response).to have_http_status(204)
       end
+    end
+  end
+  # Test suite for DELETE /todos/:id
+  describe 'DELETE /todos/:id' do
+    before { delete "/todos/#{todo_id}" }
+    it "returns status code 204" do
+      expect(response).to have_http_status(204)
     end
   end
 end
