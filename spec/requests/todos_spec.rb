@@ -34,7 +34,6 @@ RSpec.describe 'Todos API', type: :request do
         expect(response).to have_http_status(200)
       end
     end
-
     context "When record does not exists" do
       let(:todo_id) { 100 }
 
@@ -43,7 +42,7 @@ RSpec.describe 'Todos API', type: :request do
       end
 
       it "returns a not found message" do
-        expect(response.body).to match(/Coudn't find Todo/)
+        expect(response.body).to match(/Couldn't find Todo/)
       end
     end
   end
@@ -52,7 +51,6 @@ RSpec.describe 'Todos API', type: :request do
   describe 'POST /todos' do
     # valid payload
     let(:valid_attributes) { { title:'Learn Elm', created_by:1 } }
-
     context 'When the request is valid' do
       # Make the Post request
       before { post '/todos', params: valid_attributes }
@@ -66,7 +64,6 @@ RSpec.describe 'Todos API', type: :request do
         expect(response).to have_http_status(201)
       end
     end
-
     context 'When the request is invalid' do
       before { post '/todos', params: { title: 'Foobar'  } }
 
@@ -79,7 +76,6 @@ RSpec.describe 'Todos API', type: :request do
       end
     end
   end
-
   # Test suite for PUT /todos/:id
   describe 'PUT /todos/:id' do
     let(:valid_attributes) { { title:'Shopping' } }
