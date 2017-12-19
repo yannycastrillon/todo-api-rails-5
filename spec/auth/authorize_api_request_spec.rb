@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.desccribe AuthorizeApiRequest do
+RSpec.describe AuthorizeApiRequest do
   # Create a Test user
   let(:user) { create(:user) }
 
@@ -28,9 +28,10 @@ RSpec.desccribe AuthorizeApiRequest do
       context 'When MissingToken' do
         it "raises a MissingToken Error" do
           expect { invalid_request_obj.call }
-            .to raise_error(ExceptionHandler::MissingToken, 'Missing Token')
+            .to raise_error(ExceptionHandler::MissingToken, /Missing token/)
         end
       end
+
       context 'When invalid Token' do
         subject(:invalid_request_obj) do
           # custom helper method 'token_generator '
@@ -39,16 +40,17 @@ RSpec.desccribe AuthorizeApiRequest do
 
         it "raises an Invalid Token error" do
           expect { invalid_request_obj.call }
-            .to raise_error(ExceptionHandler::InvalidToken, /Invalid Token/)
+            .to raise_error(ExceptionHandler::InvalidToken, /Invalid token/)
         end
       end
+
       context 'When token is expired' do
         let(:header) { { 'Authorization' => expired_token_generator(user.id) } }
         subject(:request_obj) { described_class.new(header) }
 
-        it "raises ExpectionHandler::ExpiredSignature error" do
+        it "raises ExceptionHandler::ExpiredSignature error" do
           expect { request_obj.call }
-            .to raise_error(ExpectionHandler::InvalidToken, /Signature expired/)
+            .to raise_error(ExceptionHandler::InvalidToken, /Signature has expired/)
         end
       end
     end
