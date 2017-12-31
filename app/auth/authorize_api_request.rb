@@ -1,4 +1,7 @@
 # app/auth/Authorize_api_request.rb
+# This class will be responsible for authorizing all API requests. 
+# Make sure that all requests have a valid token and user payload.
+
 class AuthorizeApiRequest
   def initialize(headers = {})
     @headers = headers

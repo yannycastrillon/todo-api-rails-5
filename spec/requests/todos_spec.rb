@@ -76,6 +76,7 @@ RSpec.describe 'Todos API', type: :request do
       end
     end
   end
+
   # Test suite for PUT /todos/:id
   describe 'PUT /todos/:id' do
     let(:valid_attributes) { { title:'Shopping' } }
@@ -92,6 +93,7 @@ RSpec.describe 'Todos API', type: :request do
       end
     end
   end
+  
   # Test suite for DELETE /todos/:id
   describe 'DELETE /todos/:id' do
     before { delete "/todos/#{todo_id}" }
