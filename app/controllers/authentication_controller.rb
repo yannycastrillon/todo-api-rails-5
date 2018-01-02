@@ -1,5 +1,6 @@
 # app/controllers/authentication_controller.rb
 class AuthenticationController < ApplicationController
+  #  When signing up and authenticating a user we won't need a token.
   skip_before_action :authorize_request, only: :authenticate
   # return auth token once the user is authenticated
   def authenticate
