@@ -10,7 +10,6 @@ class TodosController < ApplicationController
   end
 
   def show
-    @todo = current_user.todos.create!(todo_params)
     json_response @todo
   end
 

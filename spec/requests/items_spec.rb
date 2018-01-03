@@ -7,7 +7,7 @@ RSpec.describe 'Items API' do
   let(:todo)  { create(:todo, created_by: user.id) }
   let(:items) { create_list(:item, 20, todo_id: todo.id) }
   let(:todo_id) { todo.id }
-  let(:id) { items.first.id }
+   let(:id) { items.first.id }
   let(:headers) { valid_headers }
 
   # Test suite for GET /todos/:todo_id/items
@@ -71,7 +71,7 @@ RSpec.describe 'Items API' do
     end
 
     context "When an invalid request" do
-      before { post "/todos/#{todo_id}/items", params: { } }
+      before { post "/todos/#{todo_id}/items", params: { }, headers: headers }
       it "returns a code status 422" do
         expect(response).to have_http_status(422)
       end
@@ -83,9 +83,9 @@ RSpec.describe 'Items API' do
 
   # Test suite for PUT /todos/:todo_id/items/:id
   describe "PUT /todos/:todo_id/items/:id" do
-    let(:valid_attributes) { { name: "Mozart", params: valid_attributes, headers: headers } }
+    let(:valid_attributes) { { name: "Mozart" }.to_json }
 
-    before { put "/todos/#{todo_id}/items/#{id}", params: valid_attributes }
+    before { put "/todos/#{todo_id}/items/#{id}", params: valid_attributes, headers: headers }
 
     context "When item does exists" do
       it "returns status code 204" do

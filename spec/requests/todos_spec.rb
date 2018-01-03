@@ -3,33 +3,33 @@ require 'rails_helper'
 RSpec.describe 'Todos API', type: :request do
   # initialize test data
   let(:user) { create(:user) }
-  let!(:todos) { create_list(:todo, 10, create_by: user.id) }
+  let!(:todos) { create_list(:todo, 10, created_by: user.id) }
   let(:todo_id) { todos.first.id }
   # authorize request
   let(:headers) { valid_headers }
-
   # Test suit for GET /todos
   describe 'GET /todos' do
     # make HTTP get request before each example. Update request with headers
     before { get '/todos', params:{}, headers: headers }
-
+    
     it "return todos" do
       # Note 'json' is a custom helper to parse JSON responses
       expect(json).not_to be_empty
       expect(json.size).to eq(10)
     end
-
+    
     it "return status code 200" do
       expect(response).to have_http_status(200)
     end
   end
-
+  
   # Test suit for GET /todos/:id
   describe 'GET /todos/:id' do
-    before { get "/todos/#{todo_id}", params:{}, headers:headers }
-
+    before { get "/todos/#{todo_id}", params:{}, headers: headers }
+    
     context 'When record exists' do
       it "returns the todo" do
+        # binding.pry
         expect(json).not_to be_empty
         expect(json['id']).to eq(todo_id)
       end
@@ -53,7 +53,7 @@ RSpec.describe 'Todos API', type: :request do
   # Test suit for POST /todos
   describe 'POST /todos' do
     # valid payload
-    let(:valid_attributes) { title:'Learn Elm', created_by: user.id.to_s }.to_json
+    let(:valid_attributes) { { title:'Learn Elm', created_by: user.id.to_s }.to_json }
     context 'When the request is valid' do
       # Make the Post request
       before { post '/todos', params: valid_attributes, headers: headers }
@@ -76,7 +76,7 @@ RSpec.describe 'Todos API', type: :request do
       end
 
       it "returns a validation failure message" do
-        expect(response.body).to match(/Validation failed: Created by can't be blank/)
+        expect(response.body).to match(/Validation failed: Title can't be blank/)
       end
     end
   end
